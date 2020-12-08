@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import winsound
 
 from tensorflow import keras
 
@@ -7,6 +8,8 @@ haar_cascade=cv2.CascadeClassifier('haar_face.xml')
 model=keras.models.load_model("Mask_detector.model")
 print("Everything in")
 
+freq=2500
+duration=35
 capture=cv2.VideoCapture(0)
 while True:
     flag,img=capture.read()
@@ -27,6 +30,7 @@ while True:
             if pred == 1:
                 cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),4)
                 cv2.putText(img, "No Mask", (x, y-10), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 2)
+                winsound.Beep(freq,duration)
             else:
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 4)
                 cv2.putText(img, "Mask On", (x, y - 10), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
